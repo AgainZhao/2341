@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -80,12 +80,12 @@
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="赵先森">
+<meta property="og:title" content="Mr.Zhao">
 <meta property="og:url" content="http://blog.family77.cn/archives/2017/11/index.html">
-<meta property="og:site_name" content="赵先森">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:site_name" content="Mr.Zhao">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵先森">
+<meta name="twitter:title" content="Mr.Zhao">
 
 
 
@@ -95,13 +95,13 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.3',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -120,30 +120,37 @@
 
 
 
-<!-- 网页加载条 -->
-<script src="https://neveryu.github.io/js/src/pace.min.js"></script>
 
-
-  <title>Archiv | 赵先森</title>
+  <title>归档 | Mr.Zhao</title>
   
 
 
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e1b8a6b21c3ca2edf29342e3805c1618";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-right page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -154,7 +161,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">赵先森</span>
+        <span class="site-title">Mr.Zhao</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -184,7 +191,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            首页
           </a>
         </li>
       
@@ -194,149 +201,12 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            归档
           </a>
         </li>
       
 
       
-      <li> <a title="把这个链接拖到你的Chrome收藏夹工具栏中" href='javascript:(function() {
-        function c() {
-            var e = document.createElement("link");
-            e.setAttribute("type", "text/css");
-            e.setAttribute("rel", "stylesheet");
-            e.setAttribute("href", f);
-            e.setAttribute("class", l);
-            document.body.appendChild(e)
-        }
-        function h() {
-            var e = document.getElementsByClassName(l);
-            for (var t = 0; t < e.length; t++) {
-                document.body.removeChild(e[t])
-            }
-        }
-        function p() {
-            var e = document.createElement("div");
-            e.setAttribute("class", a);
-            document.body.appendChild(e);
-            setTimeout(function() {
-                document.body.removeChild(e)
-            }, 100)
-        }
-        function d(e) {
-            return {
-                height : e.offsetHeight,
-                width : e.offsetWidth
-            }
-        }
-        function v(i) {
-            var s = d(i);
-            return s.height > e && s.height < n && s.width > t && s.width < r
-        }
-        function m(e) {
-            var t = e;
-            var n = 0;
-            while (!!t) {
-                n += t.offsetTop;
-                t = t.offsetParent
-            }
-            return n
-        }
-        function g() {
-            var e = document.documentElement;
-            if (!!window.innerWidth) {
-                return window.innerHeight
-            } else if (e && !isNaN(e.clientHeight)) {
-                return e.clientHeight
-            }
-            return 0
-        }
-        function y() {
-            if (window.pageYOffset) {
-                return window.pageYOffset
-            }
-            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
-        }
-        function E(e) {
-            var t = m(e);
-            return t >= w && t <= b + w
-        }
-        function S() {
-            var e = document.createElement("audio");
-            e.setAttribute("class", l);
-            e.src = i;
-            e.loop = false;
-            e.addEventListener("canplay", function() {
-                setTimeout(function() {
-                    x(k)
-                }, 500);
-                setTimeout(function() {
-                    N();
-                    p();
-                    for (var e = 0; e < O.length; e++) {
-                        T(O[e])
-                    }
-                }, 15500)
-            }, true);
-            e.addEventListener("ended", function() {
-                N();
-                h()
-            }, true);
-            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
-            document.body.appendChild(e);
-            e.play()
-        }
-        function x(e) {
-            e.className += " " + s + " " + o
-        }
-        function T(e) {
-            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
-        }
-        function N() {
-            var e = document.getElementsByClassName(s);
-            var t = new RegExp("\\b" + s + "\\b");
-            for (var n = 0; n < e.length; ) {
-                e[n].className = e[n].className.replace(t, "")
-            }
-        }
-        var e = 30;
-        var t = 30;
-        var n = 350;
-        var r = 350;
-        var i = "//7xuupy.com1.z0.glb.clouddn.com/tongxingSibel%20-%20Im%20Sorry.mp3";
-        var s = "mw-harlem_shake_me";
-        var o = "im_first";
-        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
-        var a = "mw-strobe_light";
-        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
-        var l = "mw_added_css";
-        var b = g();
-        var w = y();
-        var C = document.getElementsByTagName("*");
-        var k = null;
-        for (var L = 0; L < C.length; L++) {
-            var A = C[L];
-            if (v(A)) {
-                if (E(A)) {
-                    k = A;
-                    break
-                }
-            }
-        }
-        if (A === null) {
-            console.warn("Could not find a node of the right size. Please try a different page.");
-            return
-        }
-        c();
-        S();
-        var O = [];
-        for (var L = 0; L < C.length; L++) {
-            var A = C[L];
-            if (v(A)) {
-                O.push(A)
-            }
-        }
-        })()    '>High一下</a> </li>
     </ul>
   
 
@@ -367,7 +237,7 @@
         
           
         
-        Öhm..! Insgesamt 2 Artikel. Bleib dran.
+        嗯..! 目前共计 2 篇日志。 继续努力。
       </span>
 
       
@@ -491,7 +361,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Zhao</p>
+              <p class="site-author-name" itemprop="name">赵先森</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -503,7 +373,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">2</span>
-                  <span class="site-state-item-name">Artikel</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
@@ -514,18 +384,19 @@
               <div class="site-state-item site-state-categories">
                 
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">Kategorien</span>
+                  <span class="site-state-item-name">分类</span>
                 
               </div>
             
 
             
-            
+              
+              
               <div class="site-state-item site-state-tags">
-                <a href="/">
+                
                   <span class="site-state-item-count">1</span>
-                  <span class="site-state-item-name">Tags</span>
-                </a>
+                  <span class="site-state-item-name">标签</span>
+                
               </div>
             
 
@@ -566,13 +437,13 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Zhao</span>
+  <span class="author" itemprop="copyrightHolder">赵先森</span>
 
   
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
@@ -580,7 +451,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
 
 
 
@@ -733,10 +604,117 @@
   
 
   
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("akT8AhEApBfmDHdWXnLgeVyP-gzGzoHsz", "HT41buJLFeBjw5JbGOdBTQLW");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
   
+
+  
   
 
   
@@ -745,8 +723,5 @@
 
   
 
-  <div class="ds-recent-visitors" data-num-items="39" data-avatar-size="40" id="ds-recent-visitors"></div>
-  <script type="text/javascript" src="/js/src/love.js"></script>
-  <script type="text/javascript" src="/js/src/particle.js"></script>
 </body>
 </html>
