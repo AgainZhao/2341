@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.family77.cn/2017/11/10/next/</loc>
+    
+    <lastmod>2017-11-11T16:30:07.902Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.family77.cn/categories/index.html</loc>
+    
+    <lastmod>2017-11-11T15:41:23.744Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.family77.cn/tags/index.html</loc>
+    
+    <lastmod>2017-11-11T15:40:21.585Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.family77.cn/about/index.html</loc>
     
-    <lastmod>2017-11-11T13:16:30.022Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.family77.cn/2017/11/10/test/</loc>
-    
-    <lastmod>2017-11-10T07:40:45.051Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.family77.cn/2017/11/10/hello-world/</loc>
-    
-    <lastmod>2017-11-10T07:22:51.534Z</lastmod>
+    <lastmod>2017-11-11T15:32:36.809Z</lastmod>
     
   </url>
   

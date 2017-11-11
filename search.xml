@@ -3,37 +3,69 @@
   
     
     <entry>
-      <title><![CDATA[Hello World]]></title>
-      <url>/2017/11/10/hello-world/</url>
-      <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+      <title><![CDATA[ubuntu下搭建Hexo + Github Pages个人独立博客]]></title>
+      <url>/2017/11/10/next/</url>
+      <content type="html"><![CDATA[<h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p><a href="https://nodejs.org/download/" target="_blank" rel="external">Node.js</a></p>
+<p><a href="https://git-scm.com/download/" target="_blank" rel="external">git</a>  </p>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><pre><code>$ cd /var/www
+$ npm install hexo-cli -g
+$ hexo init blog
+$ cd blog
+$ npm install
+$ hexo g 
+$ hexo s 可以在http://localhost:4000/ 查看
+</code></pre><p>现在我们打开<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 已经可以看到一篇内置的blog了。</p>
+<p><img src="/images/hexo.png" alt=""></p>
+<h1 id="Hexo主题设置"><a href="#Hexo主题设置" class="headerlink" title="Hexo主题设置"></a>Hexo主题设置</h1><p>这里以主题next为例进行说明。</p>
+<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><pre><code>$ hexo clean
+$ git clone https://github.com/iissnan/hexo-theme-next themes/next
+</code></pre><h2 id="启用主题"><a href="#启用主题" class="headerlink" title="启用主题"></a>启用主题</h2><p>修改Hexo目录下的_config.yml配置文件中的theme属性，将其设置为next。</p>
+<h2 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h2><pre><code>$ cd themes/next
+$ hexo g # 生成
+$ hexo s # 启动本地web服务器
+</code></pre><p>现在打开<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> ，会看到我们已经应用了一个新的主题。</p>
+<h1 id="Github-Pages设置"><a href="#Github-Pages设置" class="headerlink" title="Github Pages设置"></a>Github Pages设置</h1><h2 id="什么是Github-Pages"><a href="#什么是Github-Pages" class="headerlink" title="什么是Github Pages"></a>什么是Github Pages</h2><p>GitHub Pages 本用于介绍托管在GitHub的项目，不过，由于他的空间免费稳定，用来做搭建一个博客再好不过了。</p>
+<p>每个帐号只能有一个仓库来存放个人主页，而且仓库的名字必须是username/username.github.io(栗子：againzhao/againzhao.github.io)，这是特殊的命名约定。你可以通过<a href="http://username.github.io" target="_blank" rel="external">http://username.github.io</a> 来访问你的个人主页。</p>
+<p>这里特别提醒一下，需要注意的个人主页的网站内容是在master分支下的。</p>
+<h2 id="创建自己的Github-Pages"><a href="#创建自己的Github-Pages" class="headerlink" title="创建自己的Github Pages"></a>创建自己的Github Pages</h2><p><img src="/images/github.png" alt=""></p>
+<h2 id="部署Hexo到Github-Pages"><a href="#部署Hexo到Github-Pages" class="headerlink" title="部署Hexo到Github Pages"></a>部署Hexo到Github Pages</h2><p>这我们如何让本地git项目与远程的github建立联系呢？用 SSH keys</p>
+<h2 id="生成SSH-keys输入你自己的邮箱地址"><a href="#生成SSH-keys输入你自己的邮箱地址" class="headerlink" title="生成SSH keys输入你自己的邮箱地址"></a>生成SSH keys输入你自己的邮箱地址</h2><pre><code>ssh-keygen -t rsa -C &quot;1045255717@qq.com&quot;
+</code></pre><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入，我们按回车不设置密码。</p>
+<p>添加 SSH Key 到 GitHub</p>
+<p>打开 /root/.ssh/id_rsa.pub，此文件里面内容为刚才生成的密钥，准确的复制这个文件的内容，粘贴到 <a href="https://github.com/settings/ssh" target="_blank" rel="external">https://github.com/settings/ssh</a> 的 new SSH key 中</p>
+<h2 id="测试可以输入下面的命令，看看设置是否成功，git-github-com的部分不要修改："><a href="#测试可以输入下面的命令，看看设置是否成功，git-github-com的部分不要修改：" class="headerlink" title="测试可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改："></a>测试可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：</h2><pre><code>ssh -T git@github.com
+</code></pre><p>Hi aierui! You’ve successfully authenticated, but GitHub does not provide shell access.表明连接成功</p>
+<h2 id="配置Git个人信息"><a href="#配置Git个人信息" class="headerlink" title="配置Git个人信息"></a>配置Git个人信息</h2><p>现在你已经可以通过 SSH 链接到 GitHub 了，还有一些个人信息需要完善的。<br>Git 会根据用户的名字和邮箱来记录提交。GitHub 也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的。</p>
+<pre><code>git config --global user.name &quot;againzhao&quot;
+git config --global user.email &quot;1045255717@qq.com&quot;
+</code></pre><h2 id="配置-Deployment"><a href="#配置-Deployment" class="headerlink" title="配置 Deployment"></a>配置 Deployment</h2><p>在_config.yml文件中，找到Deployment，然后按照如下修改，用户名改成你的：</p>
+<p>需要注意的是：冒号后面记得空一格！</p>
+<pre><code># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repo: git@github.com:againzhao/againzhao.github.io.git
+  branch: master
+</code></pre><p>本地文件提交到 GitHub Pages</p>
+<p>// 删除旧的 public 文件</p>
+<pre><code>hexo clean
+</code></pre><p>// 生成新的 public 文件</p>
+<pre><code>hexo generate
+</code></pre><p>// 开始部署</p>
+<pre><code>hexo deploye
+</code></pre><p>在浏览器中输入 <a href="https://againzhao.github.io" target="_blank" rel="external">https://againzhao.github.io</a> （用户名改成你的）看到了 Hexo 与 GitHub Pages 已经成功关联了~</p>
 ]]></content>
-      
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[test2233]]></title>
-      <url>/2017/11/10/test/</url>
-      <content type="html"></content>
       
         <categories>
             
-            <category> Diary </category>
+            <category> hexo </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> test </tag>
+            <tag> hexo </tag>
             
         </tags>
         
@@ -43,8 +75,25 @@
   
     
     <entry>
-      <title><![CDATA[about]]></title>
+      <title><![CDATA[关于]]></title>
       <url>/about/index.html</url>
+      <content type="html"><![CDATA[<p>90后</p>
+<p>PHP开发工程师</p>
+<p>主要语言 PHP、JavaScript</p>
+<hr>
+<p>联系邮箱： <a href="mailto:family77.cn@gmail.com " title="给他写信" target="_blank" rel="external">family77.cn@gmail.com </a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[分类]]></title>
+      <url>/categories/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[标签]]></title>
+      <url>/tags/index.html</url>
       <content type="html"></content>
     </entry>
     
