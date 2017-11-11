@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.family77.cn/about/index.html</loc>
+    
+    <lastmod>2017-11-11T16:56:41.982Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.family77.cn/2017/11/10/next/</loc>
     
     <lastmod>2017-11-11T16:30:07.902Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://blog.family77.cn/tags/index.html</loc>
     
     <lastmod>2017-11-11T15:40:21.585Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.family77.cn/about/index.html</loc>
-    
-    <lastmod>2017-11-11T15:32:36.809Z</lastmod>
     
   </url>
   

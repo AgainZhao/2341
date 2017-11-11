@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[ubuntu下搭建Hexo + Github Pages个人独立博客]]></title>
       <url>/2017/11/10/next/</url>
-      <content type="html"><![CDATA[<h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p><a href="https://nodejs.org/download/" target="_blank" rel="external">Node.js</a></p>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p><a href="https://nodejs.org/download/" target="_blank" rel="external">Node.js</a></p>
 <p><a href="https://git-scm.com/download/" target="_blank" rel="external">git</a>  </p>
 <h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><pre><code>$ cd /var/www
 $ npm install hexo-cli -g
@@ -77,7 +77,9 @@ deploy:
     <entry>
       <title><![CDATA[关于]]></title>
       <url>/about/index.html</url>
-      <content type="html"><![CDATA[<p>90后</p>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=4875127&auto=0&height=66"></iframe>
+
+<p>90后</p>
 <p>PHP开发工程师</p>
 <p>主要语言 PHP、JavaScript</p>
 <hr>
@@ -88,13 +90,13 @@ deploy:
     <entry>
       <title><![CDATA[分类]]></title>
       <url>/categories/index.html</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[标签]]></title>
       <url>/tags/index.html</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
     </entry>
     
   
