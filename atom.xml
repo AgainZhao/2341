@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.family77.cn/"/>
-  <updated>2017-12-18T04:03:40.047Z</updated>
+  <updated>2017-12-18T04:05:38.600Z</updated>
   <id>http://blog.family77.cn/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>UpMaterial</title>
+    <title>wechat素材长传PHP5.5兼容问题</title>
     <link href="http://blog.family77.cn/2017/12/18/UpMaterial/"/>
     <id>http://blog.family77.cn/2017/12/18/UpMaterial/</id>
     <published>2017-12-18T12:00:59.000Z</published>
-    <updated>2017-12-18T04:03:40.047Z</updated>
+    <updated>2017-12-18T04:05:38.600Z</updated>
     
     <summary type="html">
     

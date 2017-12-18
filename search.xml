@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[UpMaterial]]></title>
+      <title><![CDATA[wechat素材长传PHP5.5兼容问题]]></title>
       <url>/2017/12/18/UpMaterial/</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h2 id="兼容PHP5-5以下及5-6以上"><a href="#兼容PHP5-5以下及5-6以上" class="headerlink" title="兼容PHP5.5以下及5.6以上"></a>兼容PHP5.5以下及5.6以上</h2><p>传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
 <p>在5.6以上版本中必须使用CURLFiel函数指向文件，URLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法</p>
