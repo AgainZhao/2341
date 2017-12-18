@@ -3,6 +3,50 @@
   
     
     <entry>
+      <title><![CDATA[设置 MySQL 用户权限]]></title>
+      <url>/2017/12/18/my-MySQL/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="如何配置-mysql-远程连接"><a href="#如何配置-mysql-远程连接" class="headerlink" title="如何配置 mysql 远程连接"></a>如何配置 mysql 远程连接</h1><p> 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。</p>
+<p> 如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：</p>
+<p> 1、在您的云主机上连接进入 mysql</p>
+<pre><code>netstat -an|grep 3306
+</code></pre><p>来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你发现，前面有127.0.0.1，就说明，3306端口只能本机ip使用，所以，我们需要打开mysql配置文件</p>
+<pre><code>vi /etc/mysql/mysql.conf.d/mysqld.cnf
+
+将 bind-address = 127.0.0.1  修改为     
+
+   bind-address = 当前云服务器的ip地址
+</code></pre><p> 2、执行以下 mysql 命令：</p>
+<pre><code>use mysql               #打开 mysql 数据库
+</code></pre><p> #将 host 设置为%表示任何 ip 都能连接 mysql，当然您也可以将 host 指定为某个ip</p>
+<pre><code>update user set host=&apos;%&apos; where user=&apos;root&apos; and host=&apos;localhost&apos;;
+flush privileges;                #刷新权限表，使配置生效
+</code></pre><p>然后我们就能远程连接我们的 mysql 了。</p>
+<p>3、如果您想关闭远程连接，恢复 mysql的默认设置（只能本地连接），您可以通过以<br>下步骤操作：</p>
+<pre><code>use mysql #打开 mysql 数据库
+</code></pre><p>#将 host 设置为 localhost 表示只能本地连接 </p>
+<pre><code>mysql update user set host = &quot;localhost&quot; where user = &quot;root&quot; and host= &quot;%&quot;;
+flush privileges;               #刷新权限表，使配置生效
+</code></pre><p>备注：您也可以添加一个用户名为 yuancheng，密码为 123456，权限为%（表示任意 ip都能连接）的远程连接用户。命令参考如下：</p>
+<pre><code>grant all on *.* to &apos;yuancheng&apos;@&apos;%&apos; identified by &apos;123456&apos;;
+flush privileges;
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> MySQL </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[ubuntu下搭建Hexo + Github Pages个人独立博客]]></title>
       <url>/2017/11/10/next/</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p><a href="https://nodejs.org/download/" target="_blank" rel="external">Node.js</a></p>

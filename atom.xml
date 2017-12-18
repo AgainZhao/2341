@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.family77.cn/"/>
-  <updated>2017-11-11T16:30:07.902Z</updated>
+  <updated>2017-12-18T03:49:45.124Z</updated>
   <id>http://blog.family77.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设置 MySQL 用户权限</title>
+    <link href="http://blog.family77.cn/2017/12/18/my-MySQL/"/>
+    <id>http://blog.family77.cn/2017/12/18/my-MySQL/</id>
+    <published>2017-12-18T03:45:34.000Z</published>
+    <updated>2017-12-18T03:49:45.124Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;h1 id=&quot;如何配置-mysql-远程连接&quot;&gt;&lt;a href=&quot;#如何配置-mysql-远程连接&quot; class=&quot;headerlink&quot; title=&quot;如何配置 mysql 远
+      
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://blog.family77.cn/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://blog.family77.cn/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>ubuntu下搭建Hexo + Github Pages个人独立博客</title>
