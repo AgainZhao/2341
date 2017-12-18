@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/18/my-MySQL/">
+    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/18/UpMaterial/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="赵先森">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/18/my-MySQL/" itemprop="url">设置 MySQL 用户权限</a></h1>
+                <a class="post-title-link" href="/2017/12/18/UpMaterial/" itemprop="url">UpMaterial</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,227 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T11:45:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T20:00:59+08:00">
                 2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wechat/" itemprop="url" rel="index">
+                    <span itemprop="name">wechat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/18/UpMaterial/" class="leancloud_visitors" data-flag-title="UpMaterial">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  249
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><h2 id="兼容PHP5-5以下及5-6以上"><a href="#兼容PHP5-5以下及5-6以上" class="headerlink" title="兼容PHP5.5以下及5.6以上"></a>兼容PHP5.5以下及5.6以上</h2><p>传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
+<p>在5.6以上版本中必须使用CURLFiel函数指向文件，URLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法</p>
+<pre><code>$img_url = $_SERVER[&apos;DOCUMENT_ROOT&apos;].&apos;/yw_system/Uploads/&apos;.$info[&apos;img&apos;][&apos;savepath&apos;].$info[&apos;img&apos;][&apos;savename&apos;] ;  
+//curl www/wwwhome/service.anturaw.com/yw_system/Uploads/wechat_img/2017-06-03/59327ef58740a.jpg
+
+function wechat_uploade_img($file_info,$img_url){
+    $access_token=access_token();
+    $url=&quot;https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={$access_token}&amp;type=image&quot;;
+    $ch1 = curl_init ();
+    $timeout = 5;
+    $img_url=str_replace(&quot;\\&quot;, &quot;/&quot;, $img_url);
+    echo $img_url;
+    if (class_exists(&apos;\CURLFile&apos;)) {
+        $data= array(
+                &quot;media&quot;=&gt;new \CURLFile($img_url),
+                &apos;form-data&apos;=&gt;$file_info
+            );
+    }else{
+        $data= array(&quot;media&quot;=&gt;&quot;@$img_url&quot;,&apos;form-data&apos;=&gt;$file_info);
+    }
+    curl_setopt ( $ch1, CURLOPT_URL, $url );
+    curl_setopt ( $ch1, CURLOPT_POST, 1 );
+    curl_setopt ( $ch1, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt ( $ch1, CURLOPT_CONNECTTIMEOUT, $timeout );
+    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYPEER, FALSE );
+    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYHOST, false );
+    curl_setopt ( $ch1, CURLOPT_POSTFIELDS, $data );
+    $result = curl_exec ( $ch1 );
+    if (curl_errno($ch1))
+    {
+        return &apos;ERROR &apos; . curl_error($ch1);die;
+    }
+    curl_close ( $ch1 );
+    $result=json_decode($result,true);
+    return $result;
+}
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/15/my-MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵先森">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Zhao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/15/my-MySQL/" itemprop="url">设置 MySQL 用户权限</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T12:35:34+08:00">
+                2017-12-15
               </time>
             
 
@@ -342,7 +561,7 @@
 
           
           
-             <span id="/2017/12/18/my-MySQL/" class="leancloud_visitors" data-flag-title="设置 MySQL 用户权限">
+             <span id="/2017/12/15/my-MySQL/" class="leancloud_visitors" data-flag-title="设置 MySQL 用户权限">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -747,7 +966,7 @@ deploy:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -758,7 +977,7 @@ deploy:
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -769,7 +988,7 @@ deploy:
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -836,7 +1055,7 @@ deploy:
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共1.2k字</span>
+  <span class="post-count">博客全站共1.4k字</span>
 </div>
 
         

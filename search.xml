@@ -3,8 +3,64 @@
   
     
     <entry>
+      <title><![CDATA[UpMaterial]]></title>
+      <url>/2017/12/18/UpMaterial/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h2 id="兼容PHP5-5以下及5-6以上"><a href="#兼容PHP5-5以下及5-6以上" class="headerlink" title="兼容PHP5.5以下及5.6以上"></a>兼容PHP5.5以下及5.6以上</h2><p>传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
+<p>在5.6以上版本中必须使用CURLFiel函数指向文件，URLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法</p>
+<pre><code>$img_url = $_SERVER[&apos;DOCUMENT_ROOT&apos;].&apos;/yw_system/Uploads/&apos;.$info[&apos;img&apos;][&apos;savepath&apos;].$info[&apos;img&apos;][&apos;savename&apos;] ;  
+//curl www/wwwhome/service.anturaw.com/yw_system/Uploads/wechat_img/2017-06-03/59327ef58740a.jpg
+
+function wechat_uploade_img($file_info,$img_url){
+    $access_token=access_token();
+    $url=&quot;https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={$access_token}&amp;type=image&quot;;
+    $ch1 = curl_init ();
+    $timeout = 5;
+    $img_url=str_replace(&quot;\\&quot;, &quot;/&quot;, $img_url);
+    echo $img_url;
+    if (class_exists(&apos;\CURLFile&apos;)) {
+        $data= array(
+                &quot;media&quot;=&gt;new \CURLFile($img_url),
+                &apos;form-data&apos;=&gt;$file_info
+            );
+    }else{
+        $data= array(&quot;media&quot;=&gt;&quot;@$img_url&quot;,&apos;form-data&apos;=&gt;$file_info);
+    }
+    curl_setopt ( $ch1, CURLOPT_URL, $url );
+    curl_setopt ( $ch1, CURLOPT_POST, 1 );
+    curl_setopt ( $ch1, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt ( $ch1, CURLOPT_CONNECTTIMEOUT, $timeout );
+    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYPEER, FALSE );
+    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYHOST, false );
+    curl_setopt ( $ch1, CURLOPT_POSTFIELDS, $data );
+    $result = curl_exec ( $ch1 );
+    if (curl_errno($ch1))
+    {
+        return &apos;ERROR &apos; . curl_error($ch1);die;
+    }
+    curl_close ( $ch1 );
+    $result=json_decode($result,true);
+    return $result;
+}
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> wechat </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Upmaterial </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[设置 MySQL 用户权限]]></title>
-      <url>/2017/12/18/my-MySQL/</url>
+      <url>/2017/12/15/my-MySQL/</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="如何配置-mysql-远程连接"><a href="#如何配置-mysql-远程连接" class="headerlink" title="如何配置 mysql 远程连接"></a>如何配置 mysql 远程连接</h1><p> 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。</p>
 <p> 如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：</p>
 <p> 1、在您的云主机上连接进入 mysql</p>
