@@ -406,140 +406,18 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><h3 id="设计错误信息"><a href="#设计错误信息" class="headerlink" title="设计错误信息"></a>设计错误信息</h3><p>当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。<br>我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。</p>
-<p>Github (use http status)</p>
-<pre><code>{
-  &quot;message&quot;: &quot;Validation Failed&quot;,
-  &quot;errors&quot;: [
-    {
-      &quot;resource&quot;: &quot;Issue&quot;,
-      &quot;field&quot;: &quot;title&quot;,
-      &quot;code&quot;: &quot;missing_field&quot;
-    }
-  ]
-}
-</code></pre><p>Google (use http status)</p>
-<pre><code>{
-  &quot;error&quot;: {
-    &quot;errors&quot;: [
-      {
-        &quot;domain&quot;: &quot;global&quot;,
-        &quot;reason&quot;: &quot;insufficientFilePermissions&quot;,
-        &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
-      }
-    ],
-    &quot;code&quot;: 403,
-    &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
-  }
-}
-</code></pre><p>Facebook (use http status)</p>
-<pre><code>{
-  &quot;error&quot;: {
-    &quot;message&quot;: &quot;Message describing the error&quot;, 
-    &quot;type&quot;: &quot;OAuthException&quot;,
-    &quot;code&quot;: 190,
-    &quot;error_subcode&quot;: 460,
-    &quot;error_user_title&quot;: &quot;A title&quot;,
-    &quot;error_user_msg&quot;: &quot;A message&quot;,
-    &quot;fbtrace_id&quot;: &quot;EJplcsCHuLu&quot;
-  }
-}
-</code></pre><p>Twitter (use http status)</p>
-<pre><code>{
-  &quot;errors&quot;: [
-    {
-      &quot;message&quot;: &quot;Sorry, that page does not exist&quot;,
-      &quot;code&quot;: 34
-    }
-  ]
-}
-</code></pre><p>Twilio (use http status)</p>
-<pre><code>{
-  &quot;code&quot;: 21211,
-  &quot;message&quot;: &quot;The &apos;To&apos; number 5551234567 is not a valid phone number.&quot;,
-  &quot;more_info&quot;: &quot;https://www.twilio.com/docs/errors/21211&quot;,
-  &quot;status&quot;: 400
-}
-</code></pre><p>观察这些结构可以发现它们都有一些共同的地方：</p>
-<blockquote>
-<ul>
-<li>都利用了 Http 状态码</li>
-<li>有些返回了业务错误码</li>
-<li>都提供了给用户看的错误提示信息</li>
-<li>有些提供了给开发者看的错误信息</li>
-</ul>
-</blockquote>
-<h5 id="Http-状态码"><a href="#Http-状态码" class="headerlink" title="Http 状态码"></a>Http 状态码</h5><p>在 Restful API 中利用 Http 状态码来表明错误类型再合适不过了，因为 Http 状态码定义了很多抽象的错误类型。<br>虽然 Http 状态码定义了非常多的错误类型，但实际应用中，我们常用的状态码并不多，通常都是下面这几方面：</p>
-<blockquote>
-<ul>
-<li>API 正常工作 (200, 201)</li>
-<li>客户端错误 (400, 401, 403, 404)</li>
-<li>服务端错误 (500, 503)</li>
-</ul>
-</blockquote>
-<h5 id="业务错误码"><a href="#业务错误码" class="headerlink" title="业务错误码"></a>业务错误码</h5><p>很多时候，我们根据业务类型来自定义错误码。<br>这些业务错误码与 Http 状态码并不重叠，这时候我们可以返回业务错误码，用来提示用户/开发者错误类型。</p>
-<h5 id="给用户看的错误信息"><a href="#给用户看的错误信息" class="headerlink" title="给用户看的错误信息"></a>给用户看的错误信息</h5><p>当出现错误的时候，我们需要提示用户如何处理这种情况，通常这种错误信息都是必须的。<br>可以看到上面几个例子中都有返回给用户看的错误信息。</p>
-<h5 id="给开发者看的错误信息"><a href="#给开发者看的错误信息" class="headerlink" title="给开发者看的错误信息"></a>给开发者看的错误信息</h5><p>若我们的 API 需要开放给第三方开发者，那么我们就需要考虑返回一些给开发者看的错误信息。</p>
-<h3 id="设计错误类型"><a href="#设计错误类型" class="headerlink" title="设计错误类型"></a>设计错误类型</h3><p>我们刚才提到过，可以利用 Http 状态码来为错误类型进行分类。<br>通常我们所说的分类通常是对客户端错误进行分类， 即 4xx 类型的错误。</p>
-<p>而这些错误类型中，我们最常用的是：</p>
-<ul>
-<li><p>400 Bad Request</p>
-<p>  由于包含语法错误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。<br>  通常在请求参数不合法或格式错误的时候可以返回这个状态码。</p>
-</li>
-<li><p>401 Unauthorized</p>
-<p>  当前请求需要用户验证。<br>  通常在没有登录的状态下访问一些受保护的 API 时会用到这个状态码。</p>
-</li>
-<li><p>403 Forbidden</p>
-<p>  服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助。<br>  通常在没有权限操作资源时(如修改/删除一个不属于该用户的资源时)会用到这个状态码。</p>
-</li>
-<li><p>404 Not Found</p>
-<p>  请求失败，请求所希望得到的资源未被在服务器上发现。<br>  通常在找不到资源时返回这个状态码。</p>
-</li>
-<li><p>405  </p>
-<p>  请求的方法不允许使用。<br>  比如说，服务器只实现了 PATCH 了局部更新资源，并没有实现 PUT 来替换资源，而我们使用了 PUT，这时候服务器可以返回 </p>
-</li>
-<li><p>405   </p>
-<p>  来告知并没有实现对 PUT 的相关处理。</p>
-</li>
-<li><p>406  </p>
-<p>  请求的资源并不符合要求。比如说，我们 header 里请求 JSON 格式的数据，但是服务器只有 XML 格式的数据，这时候可以返回 406 告知。</p>
-</li>
-<li><p>407   </p>
-<p>  类似 401，但是要求必须去同代理服务器进行认证。</p>
-</li>
-<li><p>408  </p>
-<p>  客户端请求超时。我们想 POST 创建一个用户，虽然建立了连接，但是网络不好，服务器在规定时间内没有得到我们的请求信息，这时候服务器可以返回 408 告诉我们超时了。然后我们可以重新发送请求。</p>
-</li>
-<li><p>409  </p>
-<p>  请求冲突。比如说，服务器要求不同用户不能重名，服务器已经有了一个名叫小伟的用户，这时候我们又想创建一个名叫小伟的用户，服务器可以返回 409，告诉我们冲突了，也可以在 body 中明确告知是什么冲突了。</p>
-</li>
-<li><p>410  </p>
-<p>  请求资源曾经存在，但现在不存在了。比如说，我们下载葫芦娃，但是因为版权被删了，下载不了了，这时候服务器返回 410，告诉我们洗洗早点睡。</p>
-</li>
-<li><p>411 </p>
-<p>  没有提供请求资源的长度。比如说，我们下载葫芦娃，服务器只允许我们分部分下载，我们如果不告诉服务器我们要下载哪部分，服务器就返回 411 警告我们。</p>
-</li>
-<li><p>412  </p>
-<p>  请求的资源不符合请求头中的 IF-* 的某些条件。比如说，我们下载葫芦娃，然后在请求头告知服务器要 5.20 后更新过的，服务器没有，于是返回了 412。</p>
-</li>
-<li><p>413  </p>
-<p>  请求体过大。比如说，服务器要求上传文件不能超过 5M，但是我们 POST 了 10M，这时候就返回 413。</p>
-</li>
-<li><p>414  </p>
-<p>  请求的 URI 太长了。比如说，我们提供了太多的 Query 参数，以至于超过了服务器的限制，这时候可以返回 414。</p>
-</li>
-<li><p>415  </p>
-<p>  不支持的媒体类型。比如说，我们上传了一张七娃的 GIF 动图，而服务器只允许你上传 PNG 图片，这时候就返回 415。</p>
-</li>
-<li><p>416  </p>
-<p>  请求的区间无效。比如说，我们分部分下载时请求葫芦娃的 10 分钟到 12 分钟的内容，但是这部葫芦娃只有 1 分钟的内容，这时候就返回 416。</p>
-</li>
-<li><p>417  </p>
-<p>  预期错误。指服务器没法满足我们在请求头里的 Expect 相关的信息。</p>
-</li>
-</ul>
-
-          
+           设计错误信息当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。
+Github (use http status)
+{
+  &quot;mess
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/21/RESTful-error-code/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -721,114 +599,16 @@
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><p><strong>资源路径</strong></p>
-<p>RESTful API 的设计以资源为核心，每一个 URI 代表一种资源。因此，URI 不能包含动词，只能是名词。注意的是，形容词也是可以使用的，但是尽量少用。一般来说，不论资源是单个还是多个，API 的名词要以复数进行命名。此外，命名名词的时候，要使用小写、数字及下划线来区分多个单词。这样的设计是为了与 json 对象及属性的命名方案保持一致。例如，一个查询系统标签的接口可以进行如下设计。</p>
-<pre><code>【GET】 /v1/tags/{tag_id}
-</code></pre><p><strong>请求方式</strong></p>
-<p>可以通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。其中，GET 用于查询资源，POST 用于创建资源，PUT 用于更新服务端的资源的全部信息，PATCH 用于更新服务端的资源的部分信息，DELETE 用于删除服务端的资源。</p>
-<p>这里，笔者使用“用户”的案例进行回顾通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。</p>
-<pre><code>【GET】 /users # 查询用户信息列表
-【GET】 /users/1001 # 查看某个用户信息
-【POST】 /users # 新建用户信息
-【PUT】 /users/1001 # 更新用户信息(全部字段)
-【PATCH】 /users/1001 # 更新用户信息(部分字段)
-【DELETE】 /users/1001 # 删除用户信息
-</code></pre><p><strong>状态码</strong></p>
-<p>使用适合的状态码很重要，而不应该全部都返回状态码 200，或者随便乱使用。这里，列举笔者在实际开发过程中常用的一些状态码，以供参考。</p>
-<pre><code>状态码 描述
-200 请求成功
-201 创建成功
-400 错误的请求
-401 未验证
-403 被拒绝
-404 无法找到
-409 资源冲突
-500 服务器内部错误
-</code></pre><p><strong>异常响应</strong></p>
-<p>当 RESTful API 接口出现非 2xx 的 HTTP 错误码响应时，采用全局的异常结构响应信息。</p>
-<pre><code>HTTP/1.1 400 Bad Request
-Content-Type: application/json
-{
-&quot;code&quot;: &quot;INVALID_ARGUMENT&quot;,
-&quot;message&quot;: &quot;{error message}&quot;,
-&quot;cause&quot;: &quot;{cause message}&quot;,
-&quot;request_id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
-&quot;host_id&quot;: &quot;{server identity}&quot;,
-&quot;server_time&quot;: &quot;2014-01-01T12:00:00Z&quot;
-}
-</code></pre><p><strong>响应参数</strong></p>
-<p>针对不同操作，服务端向用户返回的结果应该符合以下规范。</p>
-<pre><code>【GET】 /{version}/{resources}/{resource_id} // 返回单个资源对象
-【GET】 /{version}/{resources} // 返回资源对象的列表
-【POST】 /{version}/{resources} // 返回新生成的资源对象
-【PUT】 /{version}/{resources}/{resource_id} // 返回完整的资源对象
-【PATCH】 /{version}/{resources}/{resource_id} // 返回完整的资源对象
-【DELETE】 /{version}/{resources}/{resource_id} // 状态码 200，返回完整的资源对象。
-// 状态码 204，返回一个空文档
-</code></pre><p>如果是单条数据，则返回一个对象的 JSON 字符串。</p>
-<pre><code>HTTP/1.1 200 OK
-{
-    &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
-    &quot;name&quot; : &quot;example&quot;,
-    &quot;created_time&quot;: 1496676420000,
-    &quot;updated_time&quot;: 1496676420000,
-    ...
-}
-</code></pre><p>如果是列表数据，则返回一个封装的结构体。</p>
-<pre><code>HTTP/1.1 200 OK
-{
-    &quot;count&quot;:100,
-    &quot;items&quot;:[
-        {
-            &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
-            &quot;name&quot; : &quot;example&quot;,
-            &quot;created_time&quot;: 1496676420000,
-            &quot;updated_time&quot;: 1496676420000,
-            ...
-        },
-        ...
-    ]
-}
-</code></pre><p><strong>一个完整的案例</strong></p>
-<p>最后，我们使用一个完整的案例将前面介绍的知识整合起来。这里，使用“获取用户列表”的案例。</p>
-<pre><code>【GET】     /v1/users?[&amp;keyword=xxx][&amp;enable=1][&amp;offset=0][&amp;limit=20] 获取用户列表
-功能说明：获取用户列表
-请求方式：GET
-参数说明
-- keyword: 模糊查找的关键字。[选填]
-- enable: 启用状态[1-启用 2-禁用]。[选填]
-- offset: 获取位置偏移，从 0 开始。[选填]
-- limit: 每次获取返回的条数，缺省为 20 条，最大不超过 100。 [选填]
-响应内容
-HTTP/1.1 200 OK
-{
-    &quot;count&quot;:100,
-    &quot;items&quot;:[
-        {
-            &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
-            &quot;name&quot; : &quot;example&quot;,
-            &quot;created_time&quot;: 1496676420000,
-            &quot;updated_time&quot;: 1496676420000,
-            ...
-        },
-        ...
-    ]
-}
-失败响应
-HTTP/1.1 403 UC/AUTH_DENIED
-Content-Type: application/json
-{
-    &quot;code&quot;: &quot;INVALID_ARGUMENT&quot;,
-    &quot;message&quot;: &quot;{error message}&quot;,
-    &quot;cause&quot;: &quot;{cause message}&quot;,
-    &quot;request_id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
-    &quot;host_id&quot;: &quot;{server identity}&quot;,
-    &quot;server_time&quot;: &quot;2014-01-01T12:00:00Z&quot;
-}
-错误代码
-- 403 UC/AUTH_DENIED    授权受限
-</code></pre>
-          
+           资源路径
+RESTful API 的设计以资源为核心，每一个 URI 代表一种资源。因此，URI 不能包含动词，只能是名词。注意的是，形容词也是可以使用的，但是尽量少用。一般来说，不论资源是单个还是多个，API 的名词要以复数进行命名。此外，命名名词的时候，要使用小写、数字及下划线来区分多个单词。
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/21/RESTful/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1010,44 +790,16 @@ Content-Type: application/json
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><h2 id="兼容PHP5-5以下及5-6以上"><a href="#兼容PHP5-5以下及5-6以上" class="headerlink" title="兼容PHP5.5以下及5.6以上"></a>兼容PHP5.5以下及5.6以上</h2><p>传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
-<p>在5.6以上版本中必须使用CURLFiel函数指向文件，URLFile类也可以详细定义MIME类型、文件名等可能出现在multipart/form-data数据中的附加信息。PHP推荐使用CURLFile替代旧的@语法</p>
-<pre><code>$img_url = $_SERVER[&apos;DOCUMENT_ROOT&apos;].&apos;/yw_system/Uploads/&apos;.$info[&apos;img&apos;][&apos;savepath&apos;].$info[&apos;img&apos;][&apos;savename&apos;] ;  
-//curl www/wwwhome/service.anturaw.com/yw_system/Uploads/wechat_img/2017-06-03/59327ef58740a.jpg
-
-function wechat_uploade_img($file_info,$img_url){
-    $access_token=access_token();
-    $url=&quot;https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={$access_token}&amp;type=image&quot;;
-    $ch1 = curl_init ();
-    $timeout = 5;
-    $img_url=str_replace(&quot;\\&quot;, &quot;/&quot;, $img_url);
-    echo $img_url;
-    if (class_exists(&apos;\CURLFile&apos;)) {
-        $data= array(
-                &quot;media&quot;=&gt;new \CURLFile($img_url),
-                &apos;form-data&apos;=&gt;$file_info
-            );
-    }else{
-        $data= array(&quot;media&quot;=&gt;&quot;@$img_url&quot;,&apos;form-data&apos;=&gt;$file_info);
-    }
-    curl_setopt ( $ch1, CURLOPT_URL, $url );
-    curl_setopt ( $ch1, CURLOPT_POST, 1 );
-    curl_setopt ( $ch1, CURLOPT_RETURNTRANSFER, 1 );
-    curl_setopt ( $ch1, CURLOPT_CONNECTTIMEOUT, $timeout );
-    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYPEER, FALSE );
-    curl_setopt ( $ch1, CURLOPT_SSL_VERIFYHOST, false );
-    curl_setopt ( $ch1, CURLOPT_POSTFIELDS, $data );
-    $result = curl_exec ( $ch1 );
-    if (curl_errno($ch1))
-    {
-        return &apos;ERROR &apos; . curl_error($ch1);die;
-    }
-    curl_close ( $ch1 );
-    $result=json_decode($result,true);
-    return $result;
-}
-</code></pre>
-          
+           兼容PHP5.5以下及5.6以上传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：
+在5.6以上版本中必须使用CURLFiel函数指向文件，URLFile类也可以详细定义MIME类型、文件
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/18/UpMaterial/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1229,32 +981,18 @@ function wechat_uploade_img($file_info,$img_url){
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><h1 id="如何配置-mysql-远程连接"><a href="#如何配置-mysql-远程连接" class="headerlink" title="如何配置 mysql 远程连接"></a>如何配置 mysql 远程连接</h1><p> 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。</p>
-<p> 如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：</p>
-<p> 1、在您的云主机上连接进入 mysql</p>
-<pre><code>netstat -an|grep 3306
-</code></pre><p>来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你发现，前面有127.0.0.1，就说明，3306端口只能本机ip使用，所以，我们需要打开mysql配置文件</p>
-<pre><code>vi /etc/mysql/mysql.conf.d/mysqld.cnf
-
-将 bind-address = 127.0.0.1  修改为     
-
-   bind-address = 当前云服务器的ip地址
-</code></pre><p> 2、执行以下 mysql 命令：</p>
-<pre><code>use mysql               #打开 mysql 数据库
-</code></pre><p> #将 host 设置为%表示任何 ip 都能连接 mysql，当然您也可以将 host 指定为某个ip</p>
-<pre><code>update user set host=&apos;%&apos; where user=&apos;root&apos; and host=&apos;localhost&apos;;
-flush privileges;                #刷新权限表，使配置生效
-</code></pre><p>然后我们就能远程连接我们的 mysql 了。</p>
-<p>3、如果您想关闭远程连接，恢复 mysql的默认设置（只能本地连接），您可以通过以<br>下步骤操作：</p>
-<pre><code>use mysql #打开 mysql 数据库
-</code></pre><p>#将 host 设置为 localhost 表示只能本地连接 </p>
-<pre><code>mysql update user set host = &quot;localhost&quot; where user = &quot;root&quot; and host= &quot;%&quot;;
-flush privileges;               #刷新权限表，使配置生效
-</code></pre><p>备注：您也可以添加一个用户名为 yuancheng，密码为 123456，权限为%（表示任意 ip都能连接）的远程连接用户。命令参考如下：</p>
-<pre><code>grant all on *.* to &apos;yuancheng&apos;@&apos;%&apos; identified by &apos;123456&apos;;
-flush privileges;
-</code></pre>
-          
+           如何配置 mysql 远程连接 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。
+ 如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：
+ 1、在您的云主机上连接进入 mysql
+netsta
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/15/MySQL/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1436,57 +1174,23 @@ flush privileges;
       
         
           
-            <script src="/assets/js/APlayer.min.js"> </script><h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p><a href="https://nodejs.org/download/" target="_blank" rel="external">Node.js</a></p>
-<p><a href="https://git-scm.com/download/" target="_blank" rel="external">git</a>  </p>
-<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><pre><code>$ cd /var/www
+           安装所需环境Node.js
+git  
+安装Hexo$ cd /var/www
 $ npm install hexo-cli -g
 $ hexo init blog
 $ cd blog
 $ npm install
 $ hexo g 
-$ hexo s 可以在http://localhost:4000/ 查看
-</code></pre><p>现在我们打开<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> 已经可以看到一篇内置的blog了。</p>
-<p><img src="/images/hexo.png" alt=""></p>
-<h1 id="Hexo主题设置"><a href="#Hexo主题设置" class="headerlink" title="Hexo主题设置"></a>Hexo主题设置</h1><p>这里以主题next为例进行说明。</p>
-<h2 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h2><pre><code>$ hexo clean
-$ git clone https://github.com/iissnan/hexo-theme-next themes/next
-</code></pre><h2 id="启用主题"><a href="#启用主题" class="headerlink" title="启用主题"></a>启用主题</h2><p>修改Hexo目录下的_config.yml配置文件中的theme属性，将其设置为next。</p>
-<h2 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h2><pre><code>$ cd themes/next
-$ hexo g # 生成
-$ hexo s # 启动本地web服务器
-</code></pre><p>现在打开<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> ，会看到我们已经应用了一个新的主题。</p>
-<h1 id="Github-Pages设置"><a href="#Github-Pages设置" class="headerlink" title="Github Pages设置"></a>Github Pages设置</h1><h2 id="什么是Github-Pages"><a href="#什么是Github-Pages" class="headerlink" title="什么是Github Pages"></a>什么是Github Pages</h2><p>GitHub Pages 本用于介绍托管在GitHub的项目，不过，由于他的空间免费稳定，用来做搭建一个博客再好不过了。</p>
-<p>每个帐号只能有一个仓库来存放个人主页，而且仓库的名字必须是username/username.github.io(栗子：againzhao/againzhao.github.io)，这是特殊的命名约定。你可以通过<a href="http://username.github.io" target="_blank" rel="external">http://username.github.io</a> 来访问你的个人主页。</p>
-<p>这里特别提醒一下，需要注意的个人主页的网站内容是在master分支下的。</p>
-<h2 id="创建自己的Github-Pages"><a href="#创建自己的Github-Pages" class="headerlink" title="创建自己的Github Pages"></a>创建自己的Github Pages</h2><p><img src="/images/github.png" alt=""></p>
-<h2 id="部署Hexo到Github-Pages"><a href="#部署Hexo到Github-Pages" class="headerlink" title="部署Hexo到Github Pages"></a>部署Hexo到Github Pages</h2><p>这我们如何让本地git项目与远程的github建立联系呢？用 SSH keys</p>
-<h2 id="生成SSH-keys输入你自己的邮箱地址"><a href="#生成SSH-keys输入你自己的邮箱地址" class="headerlink" title="生成SSH keys输入你自己的邮箱地址"></a>生成SSH keys输入你自己的邮箱地址</h2><pre><code>ssh-keygen -t rsa -C &quot;1045255717@qq.com&quot;
-</code></pre><p>在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入，我们按回车不设置密码。</p>
-<p>添加 SSH Key 到 GitHub</p>
-<p>打开 /root/.ssh/id_rsa.pub，此文件里面内容为刚才生成的密钥，准确的复制这个文件的内容，粘贴到 <a href="https://github.com/settings/ssh" target="_blank" rel="external">https://github.com/settings/ssh</a> 的 new SSH key 中</p>
-<h2 id="测试可以输入下面的命令，看看设置是否成功，git-github-com的部分不要修改："><a href="#测试可以输入下面的命令，看看设置是否成功，git-github-com的部分不要修改：" class="headerlink" title="测试可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改："></a>测试可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：</h2><pre><code>ssh -T git@github.com
-</code></pre><p>Hi aierui! You’ve successfully authenticated, but GitHub does not provide shell access.表明连接成功</p>
-<h2 id="配置Git个人信息"><a href="#配置Git个人信息" class="headerlink" title="配置Git个人信息"></a>配置Git个人信息</h2><p>现在你已经可以通过 SSH 链接到 GitHub 了，还有一些个人信息需要完善的。<br>Git 会根据用户的名字和邮箱来记录提交。GitHub 也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，把名称和邮箱替换成你自己的。</p>
-<pre><code>git config --global user.name &quot;againzhao&quot;
-git config --global user.email &quot;1045255717@qq.com&quot;
-</code></pre><h2 id="配置-Deployment"><a href="#配置-Deployment" class="headerlink" title="配置 Deployment"></a>配置 Deployment</h2><p>在_config.yml文件中，找到Deployment，然后按照如下修改，用户名改成你的：</p>
-<p>需要注意的是：冒号后面记得空一格！</p>
-<pre><code># Deployment
-## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repo: git@github.com:againzhao/againzhao.github.io.git
-  branch: master
-</code></pre><p>本地文件提交到 GitHub Pages</p>
-<p>// 删除旧的 public 文件</p>
-<pre><code>hexo clean
-</code></pre><p>// 生成新的 public 文件</p>
-<pre><code>hexo generate
-</code></pre><p>// 开始部署</p>
-<pre><code>hexo deploye
-</code></pre><p>在浏览器中输入 <a href="https://againzhao.github.io" target="_blank" rel="external">https://againzhao.github.io</a> （用户名改成你的）看到了 Hexo 与 GitHub Pages 已经成功关联了~</p>
-
-          
+$ hexo s 可以在http://localhost:400
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/10/next/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
