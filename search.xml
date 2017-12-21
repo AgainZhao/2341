@@ -3,6 +3,132 @@
   
     
     <entry>
+      <title><![CDATA[良好的 API 设计]]></title>
+      <url>/2017/12/21/RESTful/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><strong>资源路径</strong></p>
+<p>RESTful API 的设计以资源为核心，每一个 URI 代表一种资源。因此，URI 不能包含动词，只能是名词。注意的是，形容词也是可以使用的，但是尽量少用。一般来说，不论资源是单个还是多个，API 的名词要以复数进行命名。此外，命名名词的时候，要使用小写、数字及下划线来区分多个单词。这样的设计是为了与 json 对象及属性的命名方案保持一致。例如，一个查询系统标签的接口可以进行如下设计。</p>
+<pre><code>【GET】 /v1/tags/{tag_id}
+</code></pre><p><strong>请求方式</strong></p>
+<p>可以通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。其中，GET 用于查询资源，POST 用于创建资源，PUT 用于更新服务端的资源的全部信息，PATCH 用于更新服务端的资源的部分信息，DELETE 用于删除服务端的资源。</p>
+<p>这里，笔者使用“用户”的案例进行回顾通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。</p>
+<pre><code>【GET】 /users # 查询用户信息列表
+【GET】 /users/1001 # 查看某个用户信息
+【POST】 /users # 新建用户信息
+【PUT】 /users/1001 # 更新用户信息(全部字段)
+【PATCH】 /users/1001 # 更新用户信息(部分字段)
+【DELETE】 /users/1001 # 删除用户信息
+</code></pre><p><strong>状态码</strong></p>
+<p>使用适合的状态码很重要，而不应该全部都返回状态码 200，或者随便乱使用。这里，列举笔者在实际开发过程中常用的一些状态码，以供参考。</p>
+<pre><code>状态码 描述
+200 请求成功
+201 创建成功
+400 错误的请求
+401 未验证
+403 被拒绝
+404 无法找到
+409 资源冲突
+500 服务器内部错误
+</code></pre><p><strong>异常响应</strong></p>
+<p>当 RESTful API 接口出现非 2xx 的 HTTP 错误码响应时，采用全局的异常结构响应信息。</p>
+<pre><code>HTTP/1.1 400 Bad Request
+Content-Type: application/json
+{
+&quot;code&quot;: &quot;INVALID_ARGUMENT&quot;,
+&quot;message&quot;: &quot;{error message}&quot;,
+&quot;cause&quot;: &quot;{cause message}&quot;,
+&quot;request_id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
+&quot;host_id&quot;: &quot;{server identity}&quot;,
+&quot;server_time&quot;: &quot;2014-01-01T12:00:00Z&quot;
+}
+</code></pre><p><strong>响应参数</strong></p>
+<p>针对不同操作，服务端向用户返回的结果应该符合以下规范。</p>
+<pre><code>【GET】 /{version}/{resources}/{resource_id} // 返回单个资源对象
+【GET】 /{version}/{resources} // 返回资源对象的列表
+【POST】 /{version}/{resources} // 返回新生成的资源对象
+【PUT】 /{version}/{resources}/{resource_id} // 返回完整的资源对象
+【PATCH】 /{version}/{resources}/{resource_id} // 返回完整的资源对象
+【DELETE】 /{version}/{resources}/{resource_id} // 状态码 200，返回完整的资源对象。
+// 状态码 204，返回一个空文档
+</code></pre><p>如果是单条数据，则返回一个对象的 JSON 字符串。</p>
+<pre><code>HTTP/1.1 200 OK
+{
+    &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
+    &quot;name&quot; : &quot;example&quot;,
+    &quot;created_time&quot;: 1496676420000,
+    &quot;updated_time&quot;: 1496676420000,
+    ...
+}
+</code></pre><p>如果是列表数据，则返回一个封装的结构体。</p>
+<pre><code>HTTP/1.1 200 OK
+{
+    &quot;count&quot;:100,
+    &quot;items&quot;:[
+        {
+            &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
+            &quot;name&quot; : &quot;example&quot;,
+            &quot;created_time&quot;: 1496676420000,
+            &quot;updated_time&quot;: 1496676420000,
+            ...
+        },
+        ...
+    ]
+}
+</code></pre><p><strong>一个完整的案例</strong></p>
+<p>最后，我们使用一个完整的案例将前面介绍的知识整合起来。这里，使用“获取用户列表”的案例。</p>
+<pre><code>【GET】     /v1/users?[&amp;keyword=xxx][&amp;enable=1][&amp;offset=0][&amp;limit=20] 获取用户列表
+功能说明：获取用户列表
+请求方式：GET
+参数说明
+- keyword: 模糊查找的关键字。[选填]
+- enable: 启用状态[1-启用 2-禁用]。[选填]
+- offset: 获取位置偏移，从 0 开始。[选填]
+- limit: 每次获取返回的条数，缺省为 20 条，最大不超过 100。 [选填]
+响应内容
+HTTP/1.1 200 OK
+{
+    &quot;count&quot;:100,
+    &quot;items&quot;:[
+        {
+            &quot;id&quot; : &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
+            &quot;name&quot; : &quot;example&quot;,
+            &quot;created_time&quot;: 1496676420000,
+            &quot;updated_time&quot;: 1496676420000,
+            ...
+        },
+        ...
+    ]
+}
+失败响应
+HTTP/1.1 403 UC/AUTH_DENIED
+Content-Type: application/json
+{
+    &quot;code&quot;: &quot;INVALID_ARGUMENT&quot;,
+    &quot;message&quot;: &quot;{error message}&quot;,
+    &quot;cause&quot;: &quot;{cause message}&quot;,
+    &quot;request_id&quot;: &quot;01234567-89ab-cdef-0123-456789abcdef&quot;,
+    &quot;host_id&quot;: &quot;{server identity}&quot;,
+    &quot;server_time&quot;: &quot;2014-01-01T12:00:00Z&quot;
+}
+错误代码
+- 403 UC/AUTH_DENIED    授权受限
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> RESTful </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> RESTful </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[wechat素材长传PHP5.5兼容问题]]></title>
       <url>/2017/12/18/UpMaterial/</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h2 id="兼容PHP5-5以下及5-6以上"><a href="#兼容PHP5-5以下及5-6以上" class="headerlink" title="兼容PHP5.5以下及5.6以上"></a>兼容PHP5.5以下及5.6以上</h2><p>传统上5.5以下，PHP的cURL支持通过在数组数据中，使用“@+文件全路径”的语法附加文件，供cURL读取上传。这与命令行直接调用cURL程序的语法是一致的：</p>
@@ -175,6 +301,12 @@ deploy:
   
     
     <entry>
+      <title><![CDATA[标签]]></title>
+      <url>/tags/index.html</url>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[关于]]></title>
       <url>/about/index.html</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=355992&auto=0&height=66"></iframe>
@@ -191,12 +323,6 @@ deploy:
     <entry>
       <title><![CDATA[分类]]></title>
       <url>/categories/index.html</url>
-      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[标签]]></title>
-      <url>/tags/index.html</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script>]]></content>
     </entry>
     
