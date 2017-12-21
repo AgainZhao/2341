@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MySQL," />
+  <meta name="keywords" content="RESTful error code," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="如何配置 mysql 远程连接 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。  如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：  1、在您的云主机上连接进入 mysql netstat -an|grep 3306 来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你">
-<meta name="keywords" content="MySQL">
+<meta name="description" content="设计错误信息当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。 Github (use http status) {   &amp;quot;message&amp;quot;: &amp;quot;Validation Failed&amp;quot;,   &amp;quot;">
+<meta name="keywords" content="RESTful error code">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设置 MySQL 用户权限">
-<meta property="og:url" content="http://blog.family77.cn/2017/12/15/my-MySQL/index.html">
+<meta property="og:title" content="RESTful API 中的错误处理">
+<meta property="og:url" content="http://blog.family77.cn/2017/12/21/RESTful-error-code/index.html">
 <meta property="og:site_name" content="Mr.Zhao">
-<meta property="og:description" content="如何配置 mysql 远程连接 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。  如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：  1、在您的云主机上连接进入 mysql netstat -an|grep 3306 来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你">
+<meta property="og:description" content="设计错误信息当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。 Github (use http status) {   &amp;quot;message&amp;quot;: &amp;quot;Validation Failed&amp;quot;,   &amp;quot;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-18T04:01:46.814Z">
+<meta property="og:updated_time" content="2017-12-21T00:46:24.722Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设置 MySQL 用户权限">
-<meta name="twitter:description" content="如何配置 mysql 远程连接 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。  如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：  1、在您的云主机上连接进入 mysql netstat -an|grep 3306 来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你">
+<meta name="twitter:title" content="RESTful API 中的错误处理">
+<meta name="twitter:description" content="设计错误信息当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。 Github (use http status) {   &amp;quot;message&amp;quot;: &amp;quot;Validation Failed&amp;quot;,   &amp;quot;">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.family77.cn/2017/12/15/my-MySQL/"/>
+  <link rel="canonical" href="http://blog.family77.cn/2017/12/21/RESTful-error-code/"/>
 
 
 
 
 
-  <title>设置 MySQL 用户权限 | Mr.Zhao</title>
+  <title>RESTful API 中的错误处理 | Mr.Zhao</title>
   
 
 
@@ -275,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/15/my-MySQL/">
+    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/21/RESTful-error-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="赵先森">
@@ -292,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设置 MySQL 用户权限</h1>
+          <h1 class="post-title" itemprop="name headline">RESTful API 中的错误处理</h1>
         
 
         <div class="post-meta">
@@ -304,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T12:35:34+08:00">
-                2017-12-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T08:45:11+08:00">
+                2017-12-21
               </time>
             
 
@@ -327,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/RESTful/" itemprop="url" rel="index">
+                    <span itemprop="name">RESTful</span>
                   </a>
                 </span>
 
@@ -344,7 +344,7 @@
 
           
           
-             <span id="/2017/12/15/my-MySQL/" class="leancloud_visitors" data-flag-title="设置 MySQL 用户权限">
+             <span id="/2017/12/21/RESTful-error-code/" class="leancloud_visitors" data-flag-title="RESTful API 中的错误处理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -369,7 +369,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  404
+                  1,543
                 </span>
               
 
@@ -385,7 +385,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  6
                 </span>
               
             </div>
@@ -406,31 +406,139 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><h1 id="如何配置-mysql-远程连接"><a href="#如何配置-mysql-远程连接" class="headerlink" title="如何配置 mysql 远程连接"></a>如何配置 mysql 远程连接</h1><p> 云主机本地能够连接 mysql，为何远程连接不上mysql 呢？这是因为默认安装的 mysql，出于安全考虑，只能本地连接。</p>
-<p> 如果您需要远程连接，这里就需要设置一下 mysql 的权限表。具体设置的步骤如下：</p>
-<p> 1、在您的云主机上连接进入 mysql</p>
-<pre><code>netstat -an|grep 3306
-</code></pre><p>来查看mysql默认的端口3306是否开启，允许哪个ip使用，如果你发现，前面有127.0.0.1，就说明，3306端口只能本机ip使用，所以，我们需要打开mysql配置文件</p>
-<pre><code>vi /etc/mysql/mysql.conf.d/mysqld.cnf
+        <script src="/assets/js/APlayer.min.js"> </script><h3 id="设计错误信息"><a href="#设计错误信息" class="headerlink" title="设计错误信息"></a>设计错误信息</h3><p>当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。<br>我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。</p>
+<p>Github (use http status)</p>
+<pre><code>{
+  &quot;message&quot;: &quot;Validation Failed&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;resource&quot;: &quot;Issue&quot;,
+      &quot;field&quot;: &quot;title&quot;,
+      &quot;code&quot;: &quot;missing_field&quot;
+    }
+  ]
+}
+</code></pre><p>Google (use http status)</p>
+<pre><code>{
+  &quot;error&quot;: {
+    &quot;errors&quot;: [
+      {
+        &quot;domain&quot;: &quot;global&quot;,
+        &quot;reason&quot;: &quot;insufficientFilePermissions&quot;,
+        &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
+      }
+    ],
+    &quot;code&quot;: 403,
+    &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
+  }
+}
+</code></pre><p>Facebook (use http status)</p>
+<pre><code>{
+  &quot;error&quot;: {
+    &quot;message&quot;: &quot;Message describing the error&quot;, 
+    &quot;type&quot;: &quot;OAuthException&quot;,
+    &quot;code&quot;: 190,
+    &quot;error_subcode&quot;: 460,
+    &quot;error_user_title&quot;: &quot;A title&quot;,
+    &quot;error_user_msg&quot;: &quot;A message&quot;,
+    &quot;fbtrace_id&quot;: &quot;EJplcsCHuLu&quot;
+  }
+}
+</code></pre><p>Twitter (use http status)</p>
+<pre><code>{
+  &quot;errors&quot;: [
+    {
+      &quot;message&quot;: &quot;Sorry, that page does not exist&quot;,
+      &quot;code&quot;: 34
+    }
+  ]
+}
+</code></pre><p>Twilio (use http status)</p>
+<pre><code>{
+  &quot;code&quot;: 21211,
+  &quot;message&quot;: &quot;The &apos;To&apos; number 5551234567 is not a valid phone number.&quot;,
+  &quot;more_info&quot;: &quot;https://www.twilio.com/docs/errors/21211&quot;,
+  &quot;status&quot;: 400
+}
+</code></pre><p>观察这些结构可以发现它们都有一些共同的地方：</p>
+<blockquote>
+<ul>
+<li>都利用了 Http 状态码</li>
+<li>有些返回了业务错误码</li>
+<li>都提供了给用户看的错误提示信息</li>
+<li>有些提供了给开发者看的错误信息</li>
+</ul>
+</blockquote>
+<h5 id="Http-状态码"><a href="#Http-状态码" class="headerlink" title="Http 状态码"></a>Http 状态码</h5><p>在 Restful API 中利用 Http 状态码来表明错误类型再合适不过了，因为 Http 状态码定义了很多抽象的错误类型。<br>虽然 Http 状态码定义了非常多的错误类型，但实际应用中，我们常用的状态码并不多，通常都是下面这几方面：</p>
+<blockquote>
+<ul>
+<li>API 正常工作 (200, 201)</li>
+<li>客户端错误 (400, 401, 403, 404)</li>
+<li>服务端错误 (500, 503)</li>
+</ul>
+</blockquote>
+<h5 id="业务错误码"><a href="#业务错误码" class="headerlink" title="业务错误码"></a>业务错误码</h5><p>很多时候，我们根据业务类型来自定义错误码。<br>这些业务错误码与 Http 状态码并不重叠，这时候我们可以返回业务错误码，用来提示用户/开发者错误类型。</p>
+<h5 id="给用户看的错误信息"><a href="#给用户看的错误信息" class="headerlink" title="给用户看的错误信息"></a>给用户看的错误信息</h5><p>当出现错误的时候，我们需要提示用户如何处理这种情况，通常这种错误信息都是必须的。<br>可以看到上面几个例子中都有返回给用户看的错误信息。</p>
+<h5 id="给开发者看的错误信息"><a href="#给开发者看的错误信息" class="headerlink" title="给开发者看的错误信息"></a>给开发者看的错误信息</h5><p>若我们的 API 需要开放给第三方开发者，那么我们就需要考虑返回一些给开发者看的错误信息。</p>
+<h3 id="设计错误类型"><a href="#设计错误类型" class="headerlink" title="设计错误类型"></a>设计错误类型</h3><p>我们刚才提到过，可以利用 Http 状态码来为错误类型进行分类。<br>通常我们所说的分类通常是对客户端错误进行分类， 即 4xx 类型的错误。</p>
+<p>而这些错误类型中，我们最常用的是：</p>
+<ul>
+<li><p>400 Bad Request</p>
+<p>  由于包含语法错误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。<br>  通常在请求参数不合法或格式错误的时候可以返回这个状态码。</p>
+</li>
+<li><p>401 Unauthorized</p>
+<p>  当前请求需要用户验证。<br>  通常在没有登录的状态下访问一些受保护的 API 时会用到这个状态码。</p>
+</li>
+<li><p>403 Forbidden</p>
+<p>  服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助。<br>  通常在没有权限操作资源时(如修改/删除一个不属于该用户的资源时)会用到这个状态码。</p>
+</li>
+<li><p>404 Not Found</p>
+<p>  请求失败，请求所希望得到的资源未被在服务器上发现。<br>  通常在找不到资源时返回这个状态码。</p>
+</li>
+<li><p>405  </p>
+<p>  请求的方法不允许使用。<br>  比如说，服务器只实现了 PATCH 了局部更新资源，并没有实现 PUT 来替换资源，而我们使用了 PUT，这时候服务器可以返回 </p>
+</li>
+<li><p>405   </p>
+<p>  来告知并没有实现对 PUT 的相关处理。</p>
+</li>
+<li><p>406  </p>
+<p>  请求的资源并不符合要求。比如说，我们 header 里请求 JSON 格式的数据，但是服务器只有 XML 格式的数据，这时候可以返回 406 告知。</p>
+</li>
+<li><p>407   </p>
+<p>  类似 401，但是要求必须去同代理服务器进行认证。</p>
+</li>
+<li><p>408  </p>
+<p>  客户端请求超时。我们想 POST 创建一个用户，虽然建立了连接，但是网络不好，服务器在规定时间内没有得到我们的请求信息，这时候服务器可以返回 408 告诉我们超时了。然后我们可以重新发送请求。</p>
+</li>
+<li><p>409  </p>
+<p>  请求冲突。比如说，服务器要求不同用户不能重名，服务器已经有了一个名叫小伟的用户，这时候我们又想创建一个名叫小伟的用户，服务器可以返回 409，告诉我们冲突了，也可以在 body 中明确告知是什么冲突了。</p>
+</li>
+<li><p>410  </p>
+<p>  请求资源曾经存在，但现在不存在了。比如说，我们下载葫芦娃，但是因为版权被删了，下载不了了，这时候服务器返回 410，告诉我们洗洗早点睡。</p>
+</li>
+<li><p>411 </p>
+<p>  没有提供请求资源的长度。比如说，我们下载葫芦娃，服务器只允许我们分部分下载，我们如果不告诉服务器我们要下载哪部分，服务器就返回 411 警告我们。</p>
+</li>
+<li><p>412  </p>
+<p>  请求的资源不符合请求头中的 IF-* 的某些条件。比如说，我们下载葫芦娃，然后在请求头告知服务器要 5.20 后更新过的，服务器没有，于是返回了 412。</p>
+</li>
+<li><p>413  </p>
+<p>  请求体过大。比如说，服务器要求上传文件不能超过 5M，但是我们 POST 了 10M，这时候就返回 413。</p>
+</li>
+<li><p>414  </p>
+<p>  请求的 URI 太长了。比如说，我们提供了太多的 Query 参数，以至于超过了服务器的限制，这时候可以返回 414。</p>
+</li>
+<li><p>415  </p>
+<p>  不支持的媒体类型。比如说，我们上传了一张七娃的 GIF 动图，而服务器只允许你上传 PNG 图片，这时候就返回 415。</p>
+</li>
+<li><p>416  </p>
+<p>  请求的区间无效。比如说，我们分部分下载时请求葫芦娃的 10 分钟到 12 分钟的内容，但是这部葫芦娃只有 1 分钟的内容，这时候就返回 416。</p>
+</li>
+<li><p>417  </p>
+<p>  预期错误。指服务器没法满足我们在请求头里的 Expect 相关的信息。</p>
+</li>
+</ul>
 
-将 bind-address = 127.0.0.1  修改为     
-
-   bind-address = 当前云服务器的ip地址
-</code></pre><p> 2、执行以下 mysql 命令：</p>
-<pre><code>use mysql               #打开 mysql 数据库
-</code></pre><p> #将 host 设置为%表示任何 ip 都能连接 mysql，当然您也可以将 host 指定为某个ip</p>
-<pre><code>update user set host=&apos;%&apos; where user=&apos;root&apos; and host=&apos;localhost&apos;;
-flush privileges;                #刷新权限表，使配置生效
-</code></pre><p>然后我们就能远程连接我们的 mysql 了。</p>
-<p>3、如果您想关闭远程连接，恢复 mysql的默认设置（只能本地连接），您可以通过以<br>下步骤操作：</p>
-<pre><code>use mysql #打开 mysql 数据库
-</code></pre><p>#将 host 设置为 localhost 表示只能本地连接 </p>
-<pre><code>mysql update user set host = &quot;localhost&quot; where user = &quot;root&quot; and host= &quot;%&quot;;
-flush privileges;               #刷新权限表，使配置生效
-</code></pre><p>备注：您也可以添加一个用户名为 yuancheng，密码为 123456，权限为%（表示任意 ip都能连接）的远程连接用户。命令参考如下：</p>
-<pre><code>grant all on *.* to &apos;yuancheng&apos;@&apos;%&apos; identified by &apos;123456&apos;;
-flush privileges;
-</code></pre>
       
     </div>
     
@@ -447,7 +555,7 @@ flush privileges;
       
         <div class="post-tags">
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/RESTful-error-code/" rel="tag"># RESTful error code</a>
           
         </div>
       
@@ -460,8 +568,8 @@ flush privileges;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/10/next/" rel="next" title="ubuntu下搭建Hexo + Github Pages个人独立博客">
-                <i class="fa fa-chevron-left"></i> ubuntu下搭建Hexo + Github Pages个人独立博客
+              <a href="/2017/12/21/RESTful/" rel="next" title="良好的 API 设计">
+                <i class="fa fa-chevron-left"></i> 良好的 API 设计
               </a>
             
           </div>
@@ -469,10 +577,6 @@ flush privileges;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/18/UpMaterial/" rel="prev" title="wechat素材长传PHP5.5兼容问题">
-                wechat素材长传PHP5.5兼容问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -558,7 +662,7 @@ flush privileges;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +684,7 @@ flush privileges;
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -622,7 +726,7 @@ flush privileges;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何配置-mysql-远程连接"><span class="nav-number">1.</span> <span class="nav-text">如何配置 mysql 远程连接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计错误信息"><span class="nav-number">1.</span> <span class="nav-text">设计错误信息</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Http-状态码"><span class="nav-number">1.0.1.</span> <span class="nav-text">Http 状态码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#业务错误码"><span class="nav-number">1.0.2.</span> <span class="nav-text">业务错误码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给用户看的错误信息"><span class="nav-number">1.0.3.</span> <span class="nav-text">给用户看的错误信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给开发者看的错误信息"><span class="nav-number">1.0.4.</span> <span class="nav-text">给开发者看的错误信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计错误类型"><span class="nav-number">2.</span> <span class="nav-text">设计错误类型</span></a></li></ol></div>
             
 
           </div>
@@ -663,7 +767,7 @@ flush privileges;
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共2.3k字</span>
+  <span class="post-count">博客全站共3.9k字</span>
 </div>
 
         

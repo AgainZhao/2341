@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.family77.cn/2017/12/21/RESTful-error-code/</loc>
+    
+    <lastmod>2017-12-21T00:46:24.722Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.family77.cn/2017/12/21/RESTful/</loc>
     
     <lastmod>2017-12-21T00:43:37.798Z</lastmod>
@@ -16,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://blog.family77.cn/2017/12/15/my-MySQL/</loc>
+    <loc>http://blog.family77.cn/2017/12/15/MySQL/</loc>
     
     <lastmod>2017-12-18T04:01:46.814Z</lastmod>
     

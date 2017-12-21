@@ -271,6 +271,321 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/21/RESTful-error-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵先森">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Zhao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/RESTful-error-code/" itemprop="url">RESTful API 中的错误处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T08:45:11+08:00">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RESTful/" itemprop="url" rel="index">
+                    <span itemprop="name">RESTful</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/21/RESTful-error-code/" class="leancloud_visitors" data-flag-title="RESTful API 中的错误处理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,543
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <script src="/assets/js/APlayer.min.js"> </script><h3 id="设计错误信息"><a href="#设计错误信息" class="headerlink" title="设计错误信息"></a>设计错误信息</h3><p>当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。<br>我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。</p>
+<p>Github (use http status)</p>
+<pre><code>{
+  &quot;message&quot;: &quot;Validation Failed&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;resource&quot;: &quot;Issue&quot;,
+      &quot;field&quot;: &quot;title&quot;,
+      &quot;code&quot;: &quot;missing_field&quot;
+    }
+  ]
+}
+</code></pre><p>Google (use http status)</p>
+<pre><code>{
+  &quot;error&quot;: {
+    &quot;errors&quot;: [
+      {
+        &quot;domain&quot;: &quot;global&quot;,
+        &quot;reason&quot;: &quot;insufficientFilePermissions&quot;,
+        &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
+      }
+    ],
+    &quot;code&quot;: 403,
+    &quot;message&quot;: &quot;The user does not have sufficient permissions for file {fileId}.&quot;
+  }
+}
+</code></pre><p>Facebook (use http status)</p>
+<pre><code>{
+  &quot;error&quot;: {
+    &quot;message&quot;: &quot;Message describing the error&quot;, 
+    &quot;type&quot;: &quot;OAuthException&quot;,
+    &quot;code&quot;: 190,
+    &quot;error_subcode&quot;: 460,
+    &quot;error_user_title&quot;: &quot;A title&quot;,
+    &quot;error_user_msg&quot;: &quot;A message&quot;,
+    &quot;fbtrace_id&quot;: &quot;EJplcsCHuLu&quot;
+  }
+}
+</code></pre><p>Twitter (use http status)</p>
+<pre><code>{
+  &quot;errors&quot;: [
+    {
+      &quot;message&quot;: &quot;Sorry, that page does not exist&quot;,
+      &quot;code&quot;: 34
+    }
+  ]
+}
+</code></pre><p>Twilio (use http status)</p>
+<pre><code>{
+  &quot;code&quot;: 21211,
+  &quot;message&quot;: &quot;The &apos;To&apos; number 5551234567 is not a valid phone number.&quot;,
+  &quot;more_info&quot;: &quot;https://www.twilio.com/docs/errors/21211&quot;,
+  &quot;status&quot;: 400
+}
+</code></pre><p>观察这些结构可以发现它们都有一些共同的地方：</p>
+<blockquote>
+<ul>
+<li>都利用了 Http 状态码</li>
+<li>有些返回了业务错误码</li>
+<li>都提供了给用户看的错误提示信息</li>
+<li>有些提供了给开发者看的错误信息</li>
+</ul>
+</blockquote>
+<h5 id="Http-状态码"><a href="#Http-状态码" class="headerlink" title="Http 状态码"></a>Http 状态码</h5><p>在 Restful API 中利用 Http 状态码来表明错误类型再合适不过了，因为 Http 状态码定义了很多抽象的错误类型。<br>虽然 Http 状态码定义了非常多的错误类型，但实际应用中，我们常用的状态码并不多，通常都是下面这几方面：</p>
+<blockquote>
+<ul>
+<li>API 正常工作 (200, 201)</li>
+<li>客户端错误 (400, 401, 403, 404)</li>
+<li>服务端错误 (500, 503)</li>
+</ul>
+</blockquote>
+<h5 id="业务错误码"><a href="#业务错误码" class="headerlink" title="业务错误码"></a>业务错误码</h5><p>很多时候，我们根据业务类型来自定义错误码。<br>这些业务错误码与 Http 状态码并不重叠，这时候我们可以返回业务错误码，用来提示用户/开发者错误类型。</p>
+<h5 id="给用户看的错误信息"><a href="#给用户看的错误信息" class="headerlink" title="给用户看的错误信息"></a>给用户看的错误信息</h5><p>当出现错误的时候，我们需要提示用户如何处理这种情况，通常这种错误信息都是必须的。<br>可以看到上面几个例子中都有返回给用户看的错误信息。</p>
+<h5 id="给开发者看的错误信息"><a href="#给开发者看的错误信息" class="headerlink" title="给开发者看的错误信息"></a>给开发者看的错误信息</h5><p>若我们的 API 需要开放给第三方开发者，那么我们就需要考虑返回一些给开发者看的错误信息。</p>
+<h3 id="设计错误类型"><a href="#设计错误类型" class="headerlink" title="设计错误类型"></a>设计错误类型</h3><p>我们刚才提到过，可以利用 Http 状态码来为错误类型进行分类。<br>通常我们所说的分类通常是对客户端错误进行分类， 即 4xx 类型的错误。</p>
+<p>而这些错误类型中，我们最常用的是：</p>
+<ul>
+<li><p>400 Bad Request</p>
+<p>  由于包含语法错误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。<br>  通常在请求参数不合法或格式错误的时候可以返回这个状态码。</p>
+</li>
+<li><p>401 Unauthorized</p>
+<p>  当前请求需要用户验证。<br>  通常在没有登录的状态下访问一些受保护的 API 时会用到这个状态码。</p>
+</li>
+<li><p>403 Forbidden</p>
+<p>  服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助。<br>  通常在没有权限操作资源时(如修改/删除一个不属于该用户的资源时)会用到这个状态码。</p>
+</li>
+<li><p>404 Not Found</p>
+<p>  请求失败，请求所希望得到的资源未被在服务器上发现。<br>  通常在找不到资源时返回这个状态码。</p>
+</li>
+<li><p>405  </p>
+<p>  请求的方法不允许使用。<br>  比如说，服务器只实现了 PATCH 了局部更新资源，并没有实现 PUT 来替换资源，而我们使用了 PUT，这时候服务器可以返回 </p>
+</li>
+<li><p>405   </p>
+<p>  来告知并没有实现对 PUT 的相关处理。</p>
+</li>
+<li><p>406  </p>
+<p>  请求的资源并不符合要求。比如说，我们 header 里请求 JSON 格式的数据，但是服务器只有 XML 格式的数据，这时候可以返回 406 告知。</p>
+</li>
+<li><p>407   </p>
+<p>  类似 401，但是要求必须去同代理服务器进行认证。</p>
+</li>
+<li><p>408  </p>
+<p>  客户端请求超时。我们想 POST 创建一个用户，虽然建立了连接，但是网络不好，服务器在规定时间内没有得到我们的请求信息，这时候服务器可以返回 408 告诉我们超时了。然后我们可以重新发送请求。</p>
+</li>
+<li><p>409  </p>
+<p>  请求冲突。比如说，服务器要求不同用户不能重名，服务器已经有了一个名叫小伟的用户，这时候我们又想创建一个名叫小伟的用户，服务器可以返回 409，告诉我们冲突了，也可以在 body 中明确告知是什么冲突了。</p>
+</li>
+<li><p>410  </p>
+<p>  请求资源曾经存在，但现在不存在了。比如说，我们下载葫芦娃，但是因为版权被删了，下载不了了，这时候服务器返回 410，告诉我们洗洗早点睡。</p>
+</li>
+<li><p>411 </p>
+<p>  没有提供请求资源的长度。比如说，我们下载葫芦娃，服务器只允许我们分部分下载，我们如果不告诉服务器我们要下载哪部分，服务器就返回 411 警告我们。</p>
+</li>
+<li><p>412  </p>
+<p>  请求的资源不符合请求头中的 IF-* 的某些条件。比如说，我们下载葫芦娃，然后在请求头告知服务器要 5.20 后更新过的，服务器没有，于是返回了 412。</p>
+</li>
+<li><p>413  </p>
+<p>  请求体过大。比如说，服务器要求上传文件不能超过 5M，但是我们 POST 了 10M，这时候就返回 413。</p>
+</li>
+<li><p>414  </p>
+<p>  请求的 URI 太长了。比如说，我们提供了太多的 Query 参数，以至于超过了服务器的限制，这时候可以返回 414。</p>
+</li>
+<li><p>415  </p>
+<p>  不支持的媒体类型。比如说，我们上传了一张七娃的 GIF 动图，而服务器只允许你上传 PNG 图片，这时候就返回 415。</p>
+</li>
+<li><p>416  </p>
+<p>  请求的区间无效。比如说，我们分部分下载时请求葫芦娃的 10 分钟到 12 分钟的内容，但是这部葫芦娃只有 1 分钟的内容，这时候就返回 416。</p>
+</li>
+<li><p>417  </p>
+<p>  预期错误。指服务器没法满足我们在请求头里的 Expect 相关的信息。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/21/RESTful/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -779,7 +1094,7 @@ function wechat_uploade_img($file_info,$img_url){
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/15/my-MySQL/">
+    <link itemprop="mainEntityOfPage" href="http://blog.family77.cn/2017/12/15/MySQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="赵先森">
@@ -798,7 +1113,7 @@ function wechat_uploade_img($file_info,$img_url){
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/15/my-MySQL/" itemprop="url">设置 MySQL 用户权限</a></h1>
+                <a class="post-title-link" href="/2017/12/15/MySQL/" itemprop="url">设置 MySQL 用户权限</a></h1>
         
 
         <div class="post-meta">
@@ -850,7 +1165,7 @@ function wechat_uploade_img($file_info,$img_url){
 
           
           
-             <span id="/2017/12/15/my-MySQL/" class="leancloud_visitors" data-flag-title="设置 MySQL 用户权限">
+             <span id="/2017/12/15/MySQL/" class="leancloud_visitors" data-flag-title="设置 MySQL 用户权限">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1255,7 +1570,7 @@ deploy:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1277,7 +1592,7 @@ deploy:
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1344,7 +1659,7 @@ deploy:
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共2.3k字</span>
+  <span class="post-count">博客全站共3.9k字</span>
 </div>
 
         
