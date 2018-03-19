@@ -3,6 +3,49 @@
   
     
     <entry>
+      <title><![CDATA[Linux 秘钥生成并使用密钥登录服务器]]></title>
+      <url>/2018/01/06/Linux-secret-key/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h1 id="生成秘钥文件"><a href="#生成秘钥文件" class="headerlink" title="生成秘钥文件"></a>生成秘钥文件</h1><pre><code>ssh-keygen -t rsa 
+
+显示
+Generating public/private rsa key pair.             #生成密钥文件
+Enter file in which to save the key (/root/.ssh/id_rsa):             #指定生成的文件夹
+Enter passphrase (empty for no passphrase):     #是否要为的文件夹设置密码
+Enter same passphrase again:    #再一次确认密码
+</code></pre><h1 id="查看文件"><a href="#查看文件" class="headerlink" title="查看文件"></a>查看文件</h1><h1 id="生成秘钥登认证文件"><a href="#生成秘钥登认证文件" class="headerlink" title="生成秘钥登认证文件"></a>生成秘钥登认证文件</h1><pre><code>cat id_rsa.pub &gt;&gt; authorized_keys
+chmod 600 .ssh/authorized_keys
+</code></pre><h1 id="如此便完成了公钥的安装。为了确保连接成功，请保证以下文件权限正确"><a href="#如此便完成了公钥的安装。为了确保连接成功，请保证以下文件权限正确" class="headerlink" title="如此便完成了公钥的安装。为了确保连接成功，请保证以下文件权限正确"></a>如此便完成了公钥的安装。为了确保连接成功，请保证以下文件权限正确</h1><pre><code>chmod 600 authorized_keys
+chmod 700 ~/.ssh
+</code></pre><h1 id="编辑-etc-ssh-sshd-config-文件"><a href="#编辑-etc-ssh-sshd-config-文件" class="headerlink" title="编辑 /etc/ssh/sshd_config 文件"></a>编辑 /etc/ssh/sshd_config 文件</h1><pre><code>RSAAuthentication yes
+PubkeyAuthentication yes
+</code></pre><p>  另外，请留意 root 用户能否通过 SSH 登录：</p>
+<pre><code>PermitRootLogin yes
+</code></pre><h1 id="当你完成全部设置，并以密钥方式登录成功后，再禁用密码登录："><a href="#当你完成全部设置，并以密钥方式登录成功后，再禁用密码登录：" class="headerlink" title="当你完成全部设置，并以密钥方式登录成功后，再禁用密码登录："></a>当你完成全部设置，并以密钥方式登录成功后，再禁用密码登录：</h1><pre><code>PasswordAuthentication no
+</code></pre><h1 id="最后，重启-SSH-服务："><a href="#最后，重启-SSH-服务：" class="headerlink" title="最后，重启 SSH 服务："></a>最后，重启 SSH 服务：</h1><pre><code>[root@host .ssh]$ service sshd restart
+</code></pre><h1 id="如要使用-PUTTYGEN-EXE-软件生成-id-rsa-ppk-文件"><a href="#如要使用-PUTTYGEN-EXE-软件生成-id-rsa-ppk-文件" class="headerlink" title="如要使用 PUTTYGEN.EXE 软件生成 id_rsa.ppk 文件"></a>如要使用 PUTTYGEN.EXE 软件生成 id_rsa.ppk 文件</h1><pre><code>打开 id_rsa 文件
+点击保存私钥文件 id_rsa.ppk
+</code></pre><h1 id="putty-登录方式"><a href="#putty-登录方式" class="headerlink" title="putty 登录方式"></a>putty 登录方式</h1><pre><code>1.输入 Host Name (IP)和 Saved Sessions 
+2.save 保存
+3.Connection-&gt;SSH-&gt;Auth 选择id_rsa.ppk文件
+4.登录
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> Linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[RESTful API 中的错误处理]]></title>
       <url>/2017/12/21/RESTful-error-code/</url>
       <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><h3 id="设计错误信息"><a href="#设计错误信息" class="headerlink" title="设计错误信息"></a>设计错误信息</h3><p>当 Restful API 需要抛出错误的时候，我们要考虑的是：这个错误应该包含哪些信息。<br>我们先看看 Github, Google, Facebook, Twitter, Twilio 的错误信息是怎样的。</p>
@@ -460,7 +503,7 @@ deploy:
 <p>90后</p>
 <p>PHP开发工程师</p>
 <p>主要语言 PHP、JavaScript</p>
-<p>我是一只为了梦想燃烧激情的~ 欢迎大家骚扰 哈哈~</p>
+<p>【血肉之躯，断无不敝，世安得有长生者。秦皇、汉武、前车也。其实长生者，德盛于身。业垂于世，千秋百世后，歌其功，颂其德，常见其为人，乃是不朽。若块然躯壳，任是八百遐龄，终与草木同腐。况饮之食之裘之葛之，一无裨益于世，为造物虚生之人，即果白日升天，亦与殇子无二。（《吴下谚联·长生》）】</p>
 <hr>
 <p>联系邮箱： <a href="mailto:blog.family77.cn@gmail.com" title="给他写信" target="_blank" rel="external">blog.family77.cn@gmail.com</a></p>
 ]]></content>
