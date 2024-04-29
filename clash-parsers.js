@@ -77,7 +77,7 @@ module.exports.parse = async (
   };
 
   // set rules and rule providers
-  const urlRule = "https://github.com/AgainZhao/2341/blob/master/clash-parses.yml";
+  const urlRule = "https://raw.githubusercontent.com/AgainZhao/2341/master/clash-parses.yml";
   const { status, data } = await axios.get(urlRule);
   if (status !== 200) {
     console.log("error " + status);
