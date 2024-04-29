@@ -4,6 +4,7 @@ module.exports.parse = async (
   { name, url, interval, selected }
 ) => {
   // get the raw config from subcribed profile
+  console.log(raw)
   const rawProfileObj = yaml.parse(raw);
   console.log(rawProfileObj)
   // 提取订阅链接中的节点列表
