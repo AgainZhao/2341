@@ -5,6 +5,7 @@ module.exports.parse = async (
 ) => {
   // get the raw config from subcribed profile
   const rawProfileObj = yaml.parse(raw);
+  console.log(rawProfileObj)
   // 提取订阅链接中的节点列表
   const proxies = rawProfileObj.proxies.map((proxy) => proxy.name);
 
